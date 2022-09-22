@@ -1,0 +1,18 @@
+read doc: Bug #8987_ Web GUI main page very slow to load if wan interface is enabled but not connected.pdf
+
+...
+Updated by Pieter
+
+We had the same issue. It's a pfSense 2.4.4p2 installation in an air-gapped environment and has never touched the internet. The home page is
+unbearably slow to load, but all the other pages load just fine.
+
+We made a network capture and saw repeated DNS requests to ews.netgate.com when loading the home page. When we did a host override in
+the DNS for ews.netgate.com to localhost, the home page loaded almost instantly, just like the other pages.
+
+A little digging showed that in src/usr/local/www/index.php on line 469 the copyget.inc file is included. In this file there is an attempt to download
+the file https://ews.netgate.com/copyright every 24 hours or if the local copyright file doesn't exists. In an air-gapped environment, this file isn't
+updated so there is an attempt to download a fresh copy every time the homepage loads.
+
+The attempted download is done in a way that blocks the PHP renderer from doing other things, so it waits for a number of timeouts on the DNS
+request before finishing to process the index.php file. Hence the very long loading time.
+...
