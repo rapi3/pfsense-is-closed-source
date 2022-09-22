@@ -1,0 +1,39 @@
+--- /etc/rc.bootup      2017-11-13 15:04:38.217047000 +0100
++++ /etc/rc.bootup      2017-11-13 14:45:52.799595000 +0100
+@@ -109,7 +109,9 @@
+ parse_config_bootup();
+ echo "done.\n";
+
+-mwexec("/usr/sbin/gnid > {$g['vardb_path']}/uniqueid 2>/dev/null");
++// No need for this shitty blob and Netgate ID
++//mwexec("/usr/sbin/gnid > {$g['vardb_path']}/uniqueid 2>/dev/null");
++unlink_if_exists("{$g['vardb_path']}/uniqueid");
+
+ /* run any early shell commands specified in config.xml */
+ system_do_shell_commands(1);
+--- /etc/rc.banner      2017-11-13 15:04:38.227103000 +0100
++++ /etc/rc.banner      2017-11-13 15:02:57.665603000 +0100
+@@ -38,7 +38,9 @@
+ if (!empty($serial)) {
+        printf("%s: %s - ", gettext("Serial"), $serial);
+ }
+-printf("%s: %s\n\n", gettext("Netgate Device ID"), system_get_uniqueid());
++// No need for this shit and Netgate ID
++//printf("%s: %s\n\n", gettext("Netgate Device ID"), system_get_uniqueid());
++printf("\n\n");
+
+ print "*** Welcome to {$product} {$g['product_version_string']} ({$machine}) on {$hostname} ***\n";
+
+--- /etc/inc/system.inc 2017-11-13 15:04:38.224462000 +0100
++++ /etc/inc/system.inc 2017-11-13 14:47:30.015195000 +0100
+@@ -2375,7 +2375,10 @@
+ function system_get_uniqueid() {
+        global $g;
+
++       // No need for this shit and Netgate ID
+        $uniqueid_file="{$g['vardb_path']}/uniqueid";
++       unlink_if_exists($uniqueid_file);
++       return;
+
+        if (empty($g['uniqueid'])) {
+                if (!file_exists($uniqueid_file)) {
