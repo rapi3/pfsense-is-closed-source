@@ -71,3 +71,16 @@ In case people still decide to buy products from Netgate - kindly do yourself a 
 ![No annual licensing fees...](https://github.com/rapi3/pfsense-is-closed-source/blob/master/screenshot_no_annual_licensing_fees.png)
 ![... except if you need to reinstall.](https://github.com/rapi3/pfsense-is-closed-source/blob/master/screenshot_no_annual_licensing_fees_orly.png)
 ***
+
+pfSense CE 2.8 has a [faster PPPoE module](https://www.netgate.com/blog/optimizing-pppoe-performance-in-pfsense-software).
+
+The problem is, it's [closed source](https://github.com/pfsense/FreeBSD-ports/blob/e1f53a584010533df93e01ff15cc7dff5f6d8a83/net/if_pppoe-kmod/Makefile). The Ports `Makefile` references the `gitlab.netgate.com` hostname which resolves to `172.27.25.39`. Based on the `CNAME` records it seems to be inside Netgate's Austin intranet, presumably because Netgate doesn't want OPNsense to win.
+
+So you have a "community edition" version with a closed source module. Not cool.
+
+
+Say what you want about Rocky Linux and CIQ, they at least fought to keep "open source" open.
+
+***
+![Not impressed...](https://media.vanityfair.com/photos/5789244c814b54392dde94e6/master/w_1440,h_960,c_limit/mckayla-maroney-olympics-face.jpg)
+***
